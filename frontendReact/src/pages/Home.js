@@ -9,8 +9,8 @@ import DataGrid from '../components/dataGrid';
 import { qwe } from '../constant';
 
 function Home() {
-//   const [rowData, setRowData] = useState([]);
-//   const [columnDefs, setColumnDefs] = useState([]);
+  const [rowData, setRowData] = useState([]);
+  const [columnDefs, setColumnDefs] = useState([]);
   
   // Search state
   const [searchTerm, setSearchTerm] = useState('');
@@ -165,7 +165,7 @@ function Home() {
           paginationPageSize={10}
         /> */}
         <DataGrid
-        rowData={qwe}
+        rowData={rowData}
         columnData={[
             { field: "Brand" },
             { field: "Model" },
