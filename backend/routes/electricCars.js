@@ -13,16 +13,20 @@ router.get('/', async (req, res) => {
     // 1) Search: assume we match 'make' or 'model' fields
     if (search) {
       query.$or = [
-        { make: { $regex: search, $options: 'i' } },
-        { model: { $regex: search, $options: 'i' } }
+        { Brand: { $regex: search, $options: 'i' } },
+        { Model: { $regex: search, $options: 'i' } }
       ];
     }
 
+    
+
     // 2) Column-based filter
     if (filterColumn && filterMode && filterValue !== undefined) {
+      const isNumber = !isNaN(filterValue); // Check if the filter value is a number
+  const parsedValue = isNumber ? Number(filterValue) : filterValue; // Convert if necessary
       switch (filterMode) {
         case 'equals':
-          query[filterColumn] = filterValue;
+          query[filterColumn] = parsedValue;
           break;
         case 'contains':
           query[filterColumn] = { $regex: filterValue, $options: 'i' };

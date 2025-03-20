@@ -15,14 +15,14 @@ function Home() {
   // Search state
   const [searchTerm, setSearchTerm] = useState('');
   // Filter state
-  const [filterColumn, setFilterColumn] = useState('make');
+  const [filterColumn, setFilterColumn] = useState('Brand');
   const [filterMode, setFilterMode] = useState('contains');
   const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
     // Define columns (including Actions)
     const cols = [
-      { field: 'make', headerName: 'Make', sortable: true },
+      { field: 'brand', headerName: 'Brand', sortable: true },
       { field: 'model', headerName: 'Model', sortable: true },
       { field: 'batteryCapacity', headerName: 'Battery (kWh)', sortable: true },
       { field: 'range', headerName: 'Range (km)', sortable: true },
@@ -118,11 +118,14 @@ function Home() {
             onChange={(e) => setFilterColumn(e.target.value)}
             label="Column"
           >
-            <MenuItem value="make">Make</MenuItem>
-            <MenuItem value="model">Model</MenuItem>
-            <MenuItem value="batteryCapacity">Battery</MenuItem>
-            <MenuItem value="range">Range</MenuItem>
-            <MenuItem value="price">Price</MenuItem>
+            <MenuItem value="Brand">Brand</MenuItem>
+            <MenuItem value="Model">Model</MenuItem>
+            <MenuItem value="BatteryCapacity">Battery</MenuItem>
+            <MenuItem value="Range">Range</MenuItem>
+            <MenuItem value="Price">Price</MenuItem>
+            <MenuItem value="Price">Price</MenuItem>
+            <MenuItem value="Price">Price</MenuItem>
+            <MenuItem value="Price">Price</MenuItem>
             {/* Adjust as needed */}
           </Select>
         </FormControl>
@@ -181,7 +184,30 @@ function Home() {
             { field: "Segment" },
             { field: "Seats" },
             { field: "PriceEuro" },
-            { field: "Date" }
+            { field: "Date" },
+            {
+              headerName: 'Actions',
+              cellRenderer: (params) => (
+                <div>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => handleView(params.data._id)}
+                    style={{ marginRight: '0.5rem' }}
+                  >
+                    View
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                    onClick={() => handleDelete(params.data._id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              ),
+            },
           ]}
         
 
