@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, Box, Paper } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,20 +18,43 @@ function CarDetails() {
   if (!car) return <div>Loading...</div>;
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: '2rem' }}>
-      <Typography variant="h5" gutterBottom>Car Details</Typography>
-      {
-        Object.keys(car).filter((elem)=>elem!=='_id'&& elem!=='__v').map((elem,id)=>(
-          <Typography key={id} variant="body1"><strong>{elem}:</strong> {car[elem]}</Typography>
-
-        )) 
-      }
-      
-     
-
-      <Button variant="contained" style={{ marginTop: '1rem' }} onClick={() => navigate('/')}>
-        Back to DataGrid
-      </Button>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper elevation={3} sx={{ p: 3 }}>
+        <Typography variant="h5" gutterBottom align="center">
+          Car Details
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
+          {Object.keys(car)
+            .filter((elem) => elem !== '_id' && elem !== '__v')
+            .map((elem, index) => (
+              <Box
+                key={index}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  borderBottom: '1px solid #eee',
+                  pb: 1,
+                }}
+              >
+                <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                  {elem}:
+                </Typography>
+                <Typography variant="body1">{car[elem]}</Typography>
+              </Box>
+            ))}
+        </Box>
+        <Box sx={{ textAlign: 'center' }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate('/')}
+            sx={{ px: 3, py: 1 }}
+          >
+            Back to DataGrid
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 }

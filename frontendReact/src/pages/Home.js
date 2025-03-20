@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { AgGridReact } from 'ag-grid-react';
+import { 
+  Container, Typography, TextField, Button, FormControl, InputLabel, 
+  Select, MenuItem, IconButton, Tooltip, Box 
+} from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
-
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import DataGrid from '../components/dataGrid';
 import { qwe } from '../constant';
 
@@ -20,7 +21,7 @@ function Home() {
   const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    // Define columns (including Actions)
+    // Define columns (including Actions with MUI icons & tooltips)
     const cols = [
       { field: 'brand', headerName: 'Brand', sortable: true },
       { field: 'model', headerName: 'Model', sortable: true },
@@ -29,25 +30,27 @@ function Home() {
       { field: 'price', headerName: 'Price ($)', sortable: true },
       {
         headerName: 'Actions',
-        cellRendererFramework: (params) => (
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={() => handleView(params.data._id)}
-              style={{ marginRight: '0.5rem' }}
-            >
-              View
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-              onClick={() => handleDelete(params.data._id)}
-            >
-              Delete
-            </Button>
-          </div>
+        cellRenderer: (params) => (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Tooltip title="View">
+              <IconButton
+                color="primary"
+                size="small"
+                onClick={() => handleView(params.data._id)}
+              >
+                <VisibilityIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton
+                color="error"
+                size="small"
+                onClick={() => handleDelete(params.data._id)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         ),
       },
     ];
@@ -89,29 +92,35 @@ function Home() {
   };
 
   return (
-    <Container maxWidth="lg" style={{ marginTop: '2rem' }}>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
       <Typography variant="h4" gutterBottom>
         BMW IT Internship - Generic DataGrid
       </Typography>
 
-      {/* Search Box */}
-      <div style={{ marginBottom: '1rem' }}>
+      {/* Search Box aligned to the right */}
+      <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <TextField
           label="Search"
           variant="outlined"
           size="small"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ marginRight: '0.5rem' }}
+          sx={{ mr: 1 }}
         />
-        <Button variant="contained" onClick={handleSearch}>
-          Search
-        </Button>
-      </div>
+         <Button 
+    variant="contained" 
+    size="medium" 
+    sx={{ minWidth: 120 }} 
+    onClick={handleSearch}
+  >
+    Search
+  </Button>
+        
+      </Box>
 
-      {/* Filter UI */}
-      <div style={{ marginBottom: '1rem' }}>
-        <FormControl variant="outlined" size="small" style={{ marginRight: '0.5rem' }}>
+      {/* Filter UI aligned to the right */}
+      <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <FormControl variant="outlined" size="small" sx={{ mr: 1, minWidth: 120 }}>
           <InputLabel>Column</InputLabel>
           <Select
             value={filterColumn}
@@ -123,14 +132,10 @@ function Home() {
             <MenuItem value="BatteryCapacity">Battery</MenuItem>
             <MenuItem value="Range">Range</MenuItem>
             <MenuItem value="Price">Price</MenuItem>
-            <MenuItem value="Price">Price</MenuItem>
-            <MenuItem value="Price">Price</MenuItem>
-            <MenuItem value="Price">Price</MenuItem>
-            {/* Adjust as needed */}
           </Select>
         </FormControl>
 
-        <FormControl variant="outlined" size="small" style={{ marginRight: '0.5rem' }}>
+        <FormControl variant="outlined" size="small" sx={{ mr: 1, minWidth: 120 }}>
           <InputLabel>Filter Mode</InputLabel>
           <Select
             value={filterMode}
@@ -151,25 +156,61 @@ function Home() {
           size="small"
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
-          style={{ marginRight: '0.5rem' }}
+          sx={{ mr: 1 }}
         />
 
-        <Button variant="contained" onClick={handleFilter}>
-          Filter
-        </Button>
-      </div>
+<Button 
+    variant="contained" 
+    size="medium" 
+    sx={{ minWidth: 120 }} 
+    onClick={handleFilter}
+  >
+    Filter
+  </Button>
 
-      {/* AG Grid Table */}
-      <div className="ag-theme-alpine" style={{ height: '600px', width: '100%' }}>
-        {/* <AgGridReact
-          rowData={rowData}
-          columnDefs={columnDefs}
-          pagination
-          paginationPageSize={10}
-        /> */}
+       
+      </Box>
+
+      {/* AG Grid Table with MUI styling */}
+      <Box
+        className="ag-theme-alpine"
+        sx={{
+          height: 600,
+          width: '100%',
+          backgroundColor: '#f5f5f5',
+          fontFamily: 'Roboto, sans-serif',
+          // Center header cells
+          '& .ag-header-cell': {
+            display: 'flex',
+            backgroundColor: '#1976d2',
+            color: '#fff',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+          },
+          '& .ag-header-cell-label': {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+          // Center all cells
+          '& .ag-cell': {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '8px',
+          },
+          '& .ag-row': {
+            borderBottom: '1px solid #e0e0e0',
+          },
+          '& .ag-row:hover': {
+            backgroundColor: '#e3f2fd !important',
+          },
+        }}
+      >
         <DataGrid
-        rowData={rowData}
-        columnData={[
+          rowData={rowData}
+          columnData={[
             { field: "Brand" },
             { field: "Model" },
             { field: "AccelSec" },
@@ -188,33 +229,31 @@ function Home() {
             {
               headerName: 'Actions',
               cellRenderer: (params) => (
-                <div>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleView(params.data._id)}
-                    style={{ marginRight: '0.5rem' }}
-                  >
-                    View
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                    onClick={() => handleDelete(params.data._id)}
-                  >
-                    Delete
-                  </Button>
-                </div>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Tooltip title="View">
+                    <IconButton
+                      color="primary"
+                      size="small"
+                      onClick={() => handleView(params.data._id)}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton
+                      color="error"
+                      size="small"
+                      onClick={() => handleDelete(params.data._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
               ),
             },
           ]}
-        
-
-        ></DataGrid>
-      </div>
-
-
+        />
+      </Box>
     </Container>
   );
 }

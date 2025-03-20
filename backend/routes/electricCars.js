@@ -69,20 +69,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST a new car
-// router.post('/', async (req, res) => {
-//   try {
-   
-//     const newCar = new ElectricCar(req.body);
-//     const savedCar = await newCar.save();
-//     res.status(201).json(savedCar);
-//   } catch (error) {
-//     console.error('Error creating car:', error);
-//     res.status(500).json({ error: 'Failed to create car' });
-//   }
-// });
 
-// POST one or multiple cars
 router.post('/', async (req, res) => {
   try {
     let savedCars;
