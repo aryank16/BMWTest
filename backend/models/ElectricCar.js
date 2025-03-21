@@ -13,7 +13,7 @@ const ElectricCarSchema =new mongoose.Schema({
   FastCharge_KmH: { 
     type: Number,
     required: false,
-    // Convert value to a number; if it's not numeric (e.g. "-"), store null
+    
     set: v => {
       const n = Number(v);
       return isNaN(n) ? null : n;
@@ -49,7 +49,7 @@ const ElectricCarSchema =new mongoose.Schema({
   Date: { 
     type: Date, 
     required: true,
-    // Convert date string to Date object; adjust the conversion as needed
+   
     set: v => new Date(v)
   }
 });

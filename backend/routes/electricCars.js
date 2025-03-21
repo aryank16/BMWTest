@@ -74,10 +74,10 @@ router.post('/', async (req, res) => {
   try {
     let savedCars;
     if (Array.isArray(req.body)) {
-      // If the body is an array, insert many documents at once
+     
       savedCars = await ElectricCar.insertMany(req.body);
     } else {
-      // Otherwise, create a single document
+     
       const newCar = new ElectricCar(req.body);
       savedCars = await newCar.save();
     }

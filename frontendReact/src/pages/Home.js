@@ -13,15 +13,13 @@ function Home() {
   const [rowData, setRowData] = useState([]);
   const [columnDefs, setColumnDefs] = useState([]);
   
-  // Search state
+ 
   const [searchTerm, setSearchTerm] = useState('');
-  // Filter state
   const [filterColumn, setFilterColumn] = useState('Brand');
   const [filterMode, setFilterMode] = useState('contains');
   const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    // Define columns (including Actions with MUI icons & tooltips)
     const cols = [
       { field: 'brand', headerName: 'Brand', sortable: true },
       { field: 'model', headerName: 'Model', sortable: true },
@@ -85,7 +83,7 @@ function Home() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:4000/api/electric-cars/${id}`);
-      fetchData(); // Refresh after delete
+      fetchData(); 
     } catch (error) {
       console.error('Error deleting record:', error);
     }
@@ -97,7 +95,7 @@ function Home() {
         BMW IT Internship - Generic DataGrid
       </Typography>
 
-      {/* Search Box aligned to the right */}
+     
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <TextField
           label="Search"
@@ -118,7 +116,7 @@ function Home() {
         
       </Box>
 
-      {/* Filter UI aligned to the right */}
+     
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <FormControl variant="outlined" size="small" sx={{ mr: 1, minWidth: 120 }}>
           <InputLabel>Column</InputLabel>
@@ -171,7 +169,6 @@ function Home() {
        
       </Box>
 
-      {/* AG Grid Table with MUI styling */}
       <Box
         className="ag-theme-alpine"
         sx={{
@@ -179,7 +176,7 @@ function Home() {
           width: '100%',
           backgroundColor: '#f5f5f5',
           fontFamily: 'Roboto, sans-serif',
-          // Center header cells
+         
           '& .ag-header-cell': {
             display: 'flex',
             backgroundColor: '#1976d2',
@@ -193,7 +190,7 @@ function Home() {
             alignItems: 'center',
             justifyContent: 'center',
           },
-          // Center all cells
+         
           '& .ag-cell': {
             display: 'flex',
             alignItems: 'center',
@@ -228,15 +225,15 @@ function Home() {
             {
               field: 'Date',
               headerName: 'Date',
-              // valueFormatter runs for each cell in this column
+             
               valueFormatter: (params) => {
                 if (!params.value) return '';
-                // Convert the stored value to a Date object
+              
                 const date = new Date(params.value);
-                // Create the mm/dd/yy format
-                const month = date.getMonth() + 1; // months are 0-based
+                
+                const month = date.getMonth() + 1; 
                 const day = date.getDate();
-                const year = date.getFullYear().toString().slice(-2); // last two digits
+                const year = date.getFullYear().toString().slice(-2); 
                 return `${month}/${day}/${year}`;
               },
             },

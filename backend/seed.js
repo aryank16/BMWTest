@@ -14,10 +14,10 @@ mongoose
 
     // Read CSV file
     const file = fs.readFileSync('./BMW_Aptitude_Test_Test_Data_ElectricCarData.csv', 'utf8');
-    // Parse with Papa
+    // Parsing the data  with Papa
     const parsed = Papa.parse(file, { header: true });
 
-    // Clear existing data and insert new
+   
     await ElectricCar.deleteMany({});
     await ElectricCar.insertMany(parsed.data);
 
