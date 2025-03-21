@@ -129,9 +129,9 @@ function Home() {
           >
             <MenuItem value="Brand">Brand</MenuItem>
             <MenuItem value="Model">Model</MenuItem>
-            <MenuItem value="BatteryCapacity">Battery</MenuItem>
-            <MenuItem value="Range">Range</MenuItem>
-            <MenuItem value="Price">Price</MenuItem>
+            <MenuItem value="Efficiency_WhKm">Efficiency</MenuItem>
+            <MenuItem value="Range_Km">Range</MenuItem>
+            <MenuItem value="PriceEuro">Price</MenuItem>
           </Select>
         </FormControl>
 
@@ -225,9 +225,24 @@ function Home() {
             { field: "Segment" },
             { field: "Seats" },
             { field: "PriceEuro" },
-            { field: "Date" },
+            {
+              field: 'Date',
+              headerName: 'Date',
+              // valueFormatter runs for each cell in this column
+              valueFormatter: (params) => {
+                if (!params.value) return '';
+                // Convert the stored value to a Date object
+                const date = new Date(params.value);
+                // Create the mm/dd/yy format
+                const month = date.getMonth() + 1; // months are 0-based
+                const day = date.getDate();
+                const year = date.getFullYear().toString().slice(-2); // last two digits
+                return `${month}/${day}/${year}`;
+              },
+            },
             {
               headerName: 'Actions',
+              pinned: 'right',
               cellRenderer: (params) => (
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Tooltip title="View">
